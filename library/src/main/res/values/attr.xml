@@ -3,15 +3,15 @@
     <declare-styleable name="TimePickView">
 
 
-        <attr name="tpv_hourMarkerSize" format="dimension" />
-        <attr name="tpv_hourMarkerWidth" format="dimension" />
-        <attr name="tpv_hourTextSize" format="dimension" />
+        <attr name="tpv_markerSize" format="dimension" />
+        <attr name="tpv_markerWidth" format="dimension" />
+        <attr name="tpv_markerTextSize" format="dimension" />
 
-        <attr name="tpv_hourMarkerColor" format="color" />
-        <attr name="tpv_hourTextColor" format="color" />
+        <attr name="tpv_markerColor" format="color" />
+        <attr name="tpv_markerTextColor" format="color" />
 
-        <attr name="tpv_showHourMarker" format="boolean" />
-        <attr name="tpv_showHourText" format="boolean" />
+        <attr name="tpv_showMarkers" format="boolean" />
+        <attr name="tpv_showMarkerText" format="boolean" />
 
         <attr name="tpv_showCenterPoint" format="boolean" />
         <attr name="tpv_centerPointColor" format="color" />
@@ -28,6 +28,7 @@
 
         <attr name="tpv_backgroundColor" format="color" />
 
+        <attr name="tpv_canSetTime" format="boolean" />
         <attr name="tpv_autoSetMinuteAfterHour" format="boolean" />
 
     </declare-styleable>

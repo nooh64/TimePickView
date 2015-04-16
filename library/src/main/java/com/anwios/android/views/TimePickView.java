@@ -64,7 +64,7 @@ public class TimePickView extends View {
 
     private String separator = ":";
 
-
+    private boolean canSetTime = true;
     private int backgroundColor;
 
     // ===========================================================
@@ -306,6 +306,14 @@ public class TimePickView extends View {
         this.autoSetMinuteAfterHour = autoSetMinuteAfterHour;
     }
 
+    public boolean CanSetTime() {
+        return canSetTime;
+    }
+
+    public void setCanSetTime(boolean canSetTime) {
+        this.canSetTime = canSetTime;
+    }
+
     public void setOnTimeSetListener(onTimeSetListener listener) {
         this.listener = listener;
     }
@@ -448,15 +456,15 @@ public class TimePickView extends View {
     private void init(Context context, AttributeSet attrs) {
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TimePickView);
-        showMarkers = typedArray.getBoolean(R.styleable.TimePickView_tpv_showHourMarker, true);
-        markerSize = typedArray.getDimensionPixelSize(R.styleable.TimePickView_tpv_hourMarkerSize, getResources().getDimensionPixelSize(R.dimen.tpv_marker_size));
-        markerColor = typedArray.getColor(R.styleable.TimePickView_tpv_hourMarkerColor, Color.parseColor("#3F51B5"));
-        markerWidth = typedArray.getDimensionPixelSize(R.styleable.TimePickView_tpv_hourMarkerWidth, getResources().getDimensionPixelSize(R.dimen.tpv_marker_width));
+        showMarkers = typedArray.getBoolean(R.styleable.TimePickView_tpv_showMarkers, true);
+        markerSize = typedArray.getDimensionPixelSize(R.styleable.TimePickView_tpv_markerSize, getResources().getDimensionPixelSize(R.dimen.tpv_marker_size));
+        markerColor = typedArray.getColor(R.styleable.TimePickView_tpv_markerColor, Color.parseColor("#3F51B5"));
+        markerWidth = typedArray.getDimensionPixelSize(R.styleable.TimePickView_tpv_markerWidth, getResources().getDimensionPixelSize(R.dimen.tpv_marker_width));
 
-        showMarkerText = typedArray.getBoolean(R.styleable.TimePickView_tpv_showHourText, true);
-        markerTextSize = typedArray.getDimensionPixelSize(R.styleable.TimePickView_tpv_hourTextSize, getResources().getDimensionPixelSize(R.dimen.tpv_marker_text_size));
+        showMarkerText = typedArray.getBoolean(R.styleable.TimePickView_tpv_showMarkerText, true);
+        markerTextSize = typedArray.getDimensionPixelSize(R.styleable.TimePickView_tpv_markerTextSize, getResources().getDimensionPixelSize(R.dimen.tpv_marker_text_size));
 
-        markerTextColor = typedArray.getColor(R.styleable.TimePickView_tpv_hourTextColor, Color.parseColor("#3F51B5"));
+        markerTextColor = typedArray.getColor(R.styleable.TimePickView_tpv_markerTextColor, Color.parseColor("#3F51B5"));
 
         showCenterPoint = typedArray.getBoolean(R.styleable.TimePickView_tpv_showCenterPoint, true);
         centerPointSize = typedArray.getDimensionPixelSize(R.styleable.TimePickView_tpv_centerPointSize, getResources().getDimensionPixelSize(R.dimen.tpv_center_point_size));
@@ -473,6 +481,8 @@ public class TimePickView extends View {
         textPaddingTop = typedArray.getDimensionPixelSize(R.styleable.TimePickView_tpv_textPaddingTop, getResources().getDimensionPixelSize(R.dimen.tpv_text_padding));
 
         backgroundColor = typedArray.getColor(R.styleable.TimePickView_tpv_backgroundColor, Color.parseColor("#FFFFFF"));
+
+        canSetTime = typedArray.getBoolean(R.styleable.TimePickView_tpv_canSetTime, true);
     }
 
     private int getDimension(final int mode, final int size) {
@@ -495,59 +505,60 @@ public class TimePickView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(canSetTime) {
+            switch (event.getAction()) {
 
-        switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    //call listener (beforeTimeChanged)
+                    if (!(autoSetMinuteAfterHour && isSettingMinute)) {
 
-            case MotionEvent.ACTION_DOWN:
-                //call listener (beforeTimeChanged)
-                if (!(autoSetMinuteAfterHour && isSettingMinute)) {
-
-                    beforeSetTime();
-                }
-                break;
-            case MotionEvent.ACTION_MOVE:
-                float x = event.getX();
-                float y = event.getY();
-                float centerX = getWidth() / 2;
-                float centerY = getHeight() / 2;
-                //find angle
-                double angle1 = Math.atan2((y - centerY),
-                        (x - centerX));
-
-                double angle2 = Math.atan2((0 - centerY),
-                        0);
-                double angle = Math.toDegrees(angle1 - angle2);
-                angle = (angle < 0) ? 360 + angle : angle;
-                //set angle
-                if (isSettingHour) {
-                    hourAngle = angle;
-                } else if (isSettingMinute) {
-                    minuteAngle = angle;
-                    if (moveHourHandOnMinute) {
-                        hourAngle = ((int) (hourAngle / 30)) * 30 + (angleToMinute() / 60f) * 30f;
+                        beforeSetTime();
                     }
-                }
-                //call listener
-                onSetTime();
-                break;
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
-                if (autoSetMinuteAfterHour) {
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    float x = event.getX();
+                    float y = event.getY();
+                    float centerX = getWidth() / 2;
+                    float centerY = getHeight() / 2;
+                    //find angle
+                    double angle1 = Math.atan2((y - centerY),
+                            (x - centerX));
+
+                    double angle2 = Math.atan2((0 - centerY),
+                            0);
+                    double angle = Math.toDegrees(angle1 - angle2);
+                    angle = (angle < 0) ? 360 + angle : angle;
+                    //set angle
                     if (isSettingHour) {
-                        isSettingHour = false;
-                        isSettingMinute = true;
+                        hourAngle = angle;
                     } else if (isSettingMinute) {
-                        isSettingMinute = false;
+                        minuteAngle = angle;
+                        if (moveHourHandOnMinute) {
+                            hourAngle = ((int) (hourAngle / 30)) * 30 + (angleToMinute() / 60f) * 30f;
+                        }
+                    }
+                    //call listener
+                    onSetTime();
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_UP:
+                    if (autoSetMinuteAfterHour) {
+                        if (isSettingHour) {
+                            isSettingHour = false;
+                            isSettingMinute = true;
+                        } else if (isSettingMinute) {
+                            isSettingMinute = false;
+                            //call listener
+                            afterSetTime();
+                        }
+                    } else {
                         //call listener
                         afterSetTime();
                     }
-                } else {
-                    //call listener
-                    afterSetTime();
-                }
-                break;
+                    break;
+            }
+            invalidate();
         }
-        invalidate();
         return true;
     }
 
