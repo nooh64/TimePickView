@@ -12,7 +12,7 @@ you just add the following dependency to your build.gradle:
     repositories {
         mavenCentral()
     }
-    compile 'com.anwios.android:timepickview:1.0.1'
+    compile 'com.anwios.android:timepickview:1.0.2'
   }
 ```
 
