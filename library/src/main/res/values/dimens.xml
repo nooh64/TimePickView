@@ -1,0 +1,15 @@
+<resources>
+
+    <dimen name="tpv_marker_width">1dp</dimen>
+    <dimen name="tpv_marker_size">10dp</dimen>
+    <dimen name="tpv_marker_text_size">12sp</dimen>
+
+    <dimen name="tpv_center_point_size">2dp</dimen>
+
+    <dimen name="tpv_minute_hand_width">2dp</dimen>
+    <dimen name="tpv_hour_hand_width">5dp</dimen>
+
+    <dimen name="tpv_text_size">24sp</dimen>
+    <dimen name="tpv_text_padding">4dp</dimen>
+    <dimen name="tpv_default_size">250dp</dimen>
+</resources>

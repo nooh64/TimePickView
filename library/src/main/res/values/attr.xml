@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TimePickView">
+
+
+        <attr name="tpv_hourMarkerSize" format="dimension" />
+        <attr name="tpv_hourMarkerWidth" format="dimension" />
+        <attr name="tpv_hourTextSize" format="dimension" />
+
+        <attr name="tpv_hourMarkerColor" format="color" />
+        <attr name="tpv_hourTextColor" format="color" />
+
+        <attr name="tpv_showHourMarker" format="boolean" />
+        <attr name="tpv_showHourText" format="boolean" />
+
+        <attr name="tpv_showCenterPoint" format="boolean" />
+        <attr name="tpv_centerPointColor" format="color" />
+        <attr name="tpv_centerPointSize" format="dimension" />
+
+        <attr name="tpv_hourHandColor" format="color" />
+        <attr name="tpv_minuteHandColor" format="color" />
+        <attr name="tpv_minuteHandWidth" format="dimension" />
+        <attr name="tpv_hourHandWidth" format="dimension" />
+
+        <attr name="tpv_textColor" format="color" />
+        <attr name="tpv_textSize" format="dimension" />
+        <attr name="tpv_textPaddingTop" format="dimension" />
+
+        <attr name="tpv_backgroundColor" format="color" />
+
+        <attr name="tpv_autoSetMinuteAfterHour" format="boolean" />
+
+    </declare-styleable>
+</resources>
