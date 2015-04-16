@@ -1,5 +1,6 @@
 # TimePickView
-TimePickView for android
+TimePickView for android  
+pick time using simple touches :)
 ##Usage
 
 ###Adding Library
