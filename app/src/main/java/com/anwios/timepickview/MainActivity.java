@@ -2,9 +2,6 @@ package com.anwios.timepickview;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -61,17 +58,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    protected void onStop() {
-        Log.d("nooh","Hello");
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.d("nooh","Dest");
-        super.onDestroy();
-    }
 
     @Override
     public void beforeTimeChanged(int hour, int minute) {
