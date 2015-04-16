@@ -46,7 +46,13 @@ you just add the following dependency to your build.gradle:
         app:tpv_centerPointSize="8dp"
         />
 ```
-
+```java
+    timePickView.setHour();  //to set hour
+	timePickView.setMinute();//to set minute
+	timePickView.setTime();  // to set both hour & minute
+	timePickView.setMoveHourhandOnMinute(boolean);
+	timePickView.setOnTimeSetListener(listener);
+```
  sample
  ![sample 1](images/sample.png)
  
