@@ -99,6 +99,7 @@ public class TimePickView extends View {
         autoSetMinuteAfterHour = true;
         isSettingMinute = false;
         isSettingHour = true;
+        canSetTime=true;
     }
 
     public int getHour() {
@@ -114,6 +115,7 @@ public class TimePickView extends View {
         //set hour only
         autoSetMinuteAfterHour = false;
 
+        canSetTime=true;
         isSettingMinute = false;
         isSettingHour = true;
     }
@@ -130,6 +132,7 @@ public class TimePickView extends View {
     public void setMinute() {
         isSettingHour = false;
         isSettingMinute = true;
+        canSetTime=true;
     }
 
     public boolean isMoveHourhandOnMinute() {
@@ -352,12 +355,12 @@ public class TimePickView extends View {
 
 
         float halfWidth = drawableWidth / 2;
-        float halfHight = drawableHeight / 2;
+        float halfHeight = drawableHeight / 2;
         float padding = dpToPx(4);
 
         //background
         p.setColor(backgroundColor);
-        canvas.drawCircle(halfWidth, halfHight, radius, p);
+        canvas.drawCircle(halfWidth, halfHeight, radius, p);
         radius -= padding;
         p.setStrokeWidth(markerWidth);
         p.setColor(Color.parseColor("#3F51B5"));
@@ -370,10 +373,10 @@ public class TimePickView extends View {
 
             int hour = 1;
             for (int i = 0; i < 360; i = i + 30) {
-                canvas.rotate(30, halfWidth, halfHight);
+                canvas.rotate(30, halfWidth, halfHeight);
                 if (showMarkers) {
                     p.setColor(markerColor);
-                    canvas.drawLine(halfWidth, halfHight - radius + markerSize, halfWidth, halfHight - radius, p);
+                    canvas.drawLine(halfWidth, halfHeight - radius + markerSize, halfWidth, halfHeight - radius, p);
                 }
                 if (showMarkerText) {
                     String text = String.valueOf(hour++);
@@ -381,7 +384,7 @@ public class TimePickView extends View {
                     markerTextPaint.getTextBounds(text, 0, text.length(), bounds);
                     float textHeight = bounds.height();
                     int width = bounds.width();
-                    canvas.drawText(text, halfWidth - width / 2, halfHight - radius + markerSize + textHeight + padding, markerTextPaint);
+                    canvas.drawText(text, halfWidth - width / 2, halfHeight - radius + markerSize + textHeight + padding, markerTextPaint);
                 }
 
             }
@@ -398,27 +401,27 @@ public class TimePickView extends View {
         p.setTextSize(textSize);
         p.getTextBounds(text.toString(), 0, text.length(), bounds);
         int textWidth = bounds.width();
-        canvas.drawText(text.toString(), halfWidth - textWidth / 2, halfHight + textPaddingTop + textSize, p);
+        canvas.drawText(text.toString(), halfWidth - textWidth / 2, halfHeight + textPaddingTop + textSize, p);
 
         //draw Hands
         p.setColor(minuteHandColor);
-        canvas.rotate((float) minuteAngle, halfWidth, halfHight);
+        canvas.rotate((float) minuteAngle, halfWidth, halfHeight);
         p.setStrokeWidth(minuteHandWidth);
-        canvas.drawLine(halfWidth, halfHight - dpToPx(6) - centerPointSize, halfWidth, halfHight - radius, p);
-        canvas.rotate(-(float) minuteAngle, halfWidth, halfHight);
+        canvas.drawLine(halfWidth, halfHeight - dpToPx(6) - centerPointSize, halfWidth, halfHeight - radius, p);
+        canvas.rotate(-(float) minuteAngle, halfWidth, halfHeight);
 
 
         p.setColor(hourHandColor);
-        canvas.rotate((float) hourAngle, halfWidth, halfHight);
+        canvas.rotate((float) hourAngle, halfWidth, halfHeight);
         p.setStrokeWidth(hourHandWidth);
-        canvas.drawLine(halfWidth, halfHight - dpToPx(6) - centerPointSize, halfWidth, halfHight - ((2 * radius / 3)), p);
-        canvas.rotate(-(float) hourAngle, halfWidth, halfHight);
+        canvas.drawLine(halfWidth, halfHeight - dpToPx(6) - centerPointSize, halfWidth, halfHeight - ((2 * radius / 3)), p);
+        canvas.rotate(-(float) hourAngle, halfWidth, halfHeight);
 
 
         //draw center point
         if (showCenterPoint) {
             p.setColor(centerPointColor);
-            canvas.drawCircle(halfWidth, halfHight, centerPointSize, p);
+            canvas.drawCircle(halfWidth, halfHeight, centerPointSize, p);
         }
 
         super.onDraw(canvas);
@@ -511,7 +514,6 @@ public class TimePickView extends View {
                 case MotionEvent.ACTION_DOWN:
                     //call listener (beforeTimeChanged)
                     if (!(autoSetMinuteAfterHour && isSettingMinute)) {
-
                         beforeSetTime();
                     }
                     break;
@@ -548,6 +550,7 @@ public class TimePickView extends View {
                             isSettingMinute = true;
                         } else if (isSettingMinute) {
                             isSettingMinute = false;
+                            canSetTime=false;
                             //call listener
                             afterSetTime();
                         }
